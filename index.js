@@ -2,6 +2,8 @@
 //TODO : npm install --save express@4.15.2
 var app = require('express')();
 var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
 
 const PORT = 3000;
 
@@ -19,4 +21,14 @@ app.get('/style.css', (req, res) => {
 
 http.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
+});
+
+io.on('connection', (socket) => {
+    console.log(`New Connection`);
+    console.log(`=> ${socket}`);
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+        console.log(`<= ${socket}`);
+    });
 });
